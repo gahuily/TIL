@@ -1,0 +1,66 @@
+# GIT; 버전 관리 시스템
+
+## 분산 버전 관리 시스템
+
+### 버전 관리 : 변화를 기록하고 추적하는 것
+- 각 버전은 이전 버전으로부터의 **변경사항**을 기록하고 있음
+- 예를 들어 버전3은 전체 내용을 모두 포함하고 있지 않음
+
+기존 - 지붕 -> 지붕+외벽 -> 지붕+외벽+창문 -> 지붕+외벽+창문+문 -> 집 완성
+개선 - 지붕 -> 외벽 -> 창문 -> 문 -> 집 완성
+
+### 분산
+#### 중앙 vs 분산
+- 중앙 집중식
+  - 버전은 중앙 서버에 저장되고 중앙 서버에서 파일을 가져와 다시 중앙에 업로드
+  - 보안 문제 컴터에 불나면 A, B는 최종 origianl 작업물만 가지고 있음 버전은 다 날라가버림
+  ![alt text](image.png)
+  - A에서 A 수정, B에서 A 수정 -> 합치는 과정에서 충돌 --- 관리 불가
+
+- 분산식
+  - 버전을 여러 개의 복제된 저장소에 저장 및 관리
+  - 버전 정보 관리
+  - 숨김폴더.git에서 파일 형태로 ver1~ver4까지의 변경 내용 저장
+  ![alt text](image-1.png)
+  - A에서 A 수정, B에서 A 수정 버전으로써 기록 -> 합치는 과정에서 충돌은 되지만 원본을 해치진 않음
+
+- 분산 구조의 장점
+  - 중앙 서버에 의존하지 않고도 동시에 다양한 작업을 수행할 수 있음
+    * 개발자들 간의 작업 충돌을 줄여주고 개발 생산성을 향상
+  - 중앙 서버의 장애나 손실에 대비하여 백업과 복구가 용이
+  - 인터넷에 연결되지 않은 환경에서도 작업을 계속할 수 있음
+    * 변경 이력과 코드를 로컬 저장소에 기록하고, 나중에 중앙 서버와 동기화
+
+## git의 역할
+- 코드의 버전(히스토리)를 관리
+- 개발되어 온 과정 파악
+- 이전 버전과의 변경 사항 비교
+- 코드의 '변경 이력'을 기록하고 '협업'을 원활하게 하는 도구
+
+## git의 영역
+
+### Working Directory
+
+### Staging Area
+
+### Repository
+버전 이력과 파일들이 영구적으로 저장되는 영역
+모든 버전과 변경 이력이 기록됨
+
+`git init` : (master) 생성, 폴더 숨김 항목에 .git 폴더 생성
+```bash
+On branch master
+
+No commits yet
+
+Changes to be committed:
+  (use "git rm --cached <file>..." to unstage)
+        new file:   00_startcamp/01_git/markdown.md
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        00_startcamp/01_git/CLI.md
+        00_startcamp/01_git/GIT.md
+        00_startcamp/01_git/image-1.png
+        00_startcamp/01_git/image.png
+```
