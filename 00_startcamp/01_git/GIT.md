@@ -47,7 +47,9 @@
 버전 이력과 파일들이 영구적으로 저장되는 영역
 모든 버전과 변경 이력이 기록됨
 
-`git init` : (master) 생성, 폴더 숨김 항목에 .git 폴더 생성
+`git init` : (master) 생성, 폴더 숨김 항목에 .git 폴더 생성 git으로 관리를 하겠다
+
+
 ```bash
 On branch master
 
@@ -64,3 +66,21 @@ Untracked files:
         00_startcamp/01_git/image-1.png
         00_startcamp/01_git/image.png
 ```
+
+```bash
+$ git commit -m "마크다운 연습"
+[master (root-commit) 66bd96f] 마크다운 연습
+ 1 file changed, 53 insertions(+)
+ create mode 100644 00_startcamp/01_git/markdown.md
+```
+
+
+stra--- -> repository로 넘어감
+
+이 컴퓨터에서 git config 설정해두면 다른 폴더 git init 하고 git config 한 번 더 할 필요 없음
+
+- git은 로컬 저장소 내 모든 파일의 **'변경사항'**을 감사히고 있다.
+
+### 원격 저장소
+코드와 버전 관리 이력을 온라인 상의 특정 위치에 저장하여 여러 개발자가 협업하고 코드를 공유할 수 있는 저장 공간
+
