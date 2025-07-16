@@ -84,3 +84,11 @@ stra--- -> repository로 넘어감
 ### 원격 저장소
 코드와 버전 관리 이력을 온라인 상의 특정 위치에 저장하여 여러 개발자가 협업하고 코드를 공유할 수 있는 저장 공간
 
+Add a README file -> 
+
+
+`echo` 내용 추가해서 파일 생성한다
+`git remote add origin https://github.com/gahuily/TIL`
+원격 저장소 추가할 건데 앞으로 origin이라 부를 거고 주소는 http~다.
+
+`git push -u origin master` - 
