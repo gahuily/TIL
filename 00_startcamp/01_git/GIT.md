@@ -92,3 +92,27 @@ Add a README file ->
 원격 저장소 추가할 건데 앞으로 origin이라 부를 거고 주소는 http~다.
 
 `git push -u origin master` - 
+
+시작
+`init
+작업
+add
+commit`
+push - 싸피에서 작업한 내용 업데이트
+집
+pull - 집에서 싸피 작업 내용 다운로드(반영)
+작업
+add
+commit
+push - 집에서 작업한 변경 내용 업데이트
+pull - 변경된 내용 싸피에서 반영
+
+```bash
+$ git add 파일명.확장자
+$ git commit -m "작업명"
+# Please tell me who you are 뜨는 경우
+$ git config --global user.email "이메일"
+$ git config --global user.name "이름"
+$ git commit -m "작업명" # 에러 해결 후 다시 시도
+$ git push # 작업내용을 깃허브에 저장
+```
