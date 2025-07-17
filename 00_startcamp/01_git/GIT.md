@@ -250,3 +250,13 @@ git push origin gahui
 (다시 돌아와서)
 git pull
 git branch -d gahui
+
+두 branch에서 동시에 같은 파일 작업하여 충돌 생겼을 경우,
+`git pull` # 최신화한 후 내 branch에서 merge 작업
+`git switch gahui`
+`git merge master` # 내 작업 환경에 master 내용을 merge
+`git add .`
+`git commit -m ""`
+`git push origin gahui`
+내 branch에서 수정 후 충돌 없게 merge request
+마지막으로 master에서 최신화(git pull)까지 해야 완성
