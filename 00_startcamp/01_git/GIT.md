@@ -239,3 +239,14 @@ $ git push # 작업내용을 깃허브에 저장
 
 로컬과 원격 저장소의 commit 목록이 다르면 push 못함
 pull은 가능 (원격->로컬)
+
+### 깃 branch 과정
+git branch -c gahui
+git switch gahui
+git add .
+git commit -m ""
+git push origin gahui
+(gitlab에서 merge)
+(다시 돌아와서)
+git pull
+git branch -d gahui
