@@ -260,3 +260,9 @@ git branch -d gahui
 `git push origin gahui`
 내 branch에서 수정 후 충돌 없게 merge request
 마지막으로 master에서 최신화(git pull)까지 해야 완성
+
+### RULE
+1. master branch는 아무도 수정하지 않는다.
+2. master branch는 최초 설정 (모든 팀원이 함께 쓸 내용 생성 시만 사용)
+- git add . / git commit / push 까지 모두 진행
+3. develop (혹은 dev) branch 생성한다.
