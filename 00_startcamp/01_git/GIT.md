@@ -12,13 +12,13 @@
 ### 분산
 #### 중앙 vs 분산
 - 중앙 집중식
-  - ![alt text](image.png)
+  - ![중앙 집중식](image.png)
   - 버전은 중앙 서버에 저장되고 중앙 서버에서 파일을 가져와 다시 중앙에 업로드
   - 보안 문제 컴터에 불나면 A, B는 최종 origianl 작업물만 가지고 있음 버전은 다 날라가버림
   - A에서 A 수정, B에서 A 수정 -> 합치는 과정에서 충돌 --- 관리 불가
 
 - 분산식
-  - ![alt text](image-1.png)
+  - ![분산식](image-1.png)
   - 버전을 여러 개의 복제된 저장소에 저장 및 관리
   - 버전 정보 관리
   - 숨김폴더.git에서 파일 형태로 ver1~ver4까지의 변경 내용 저장
@@ -58,6 +58,10 @@
 - git의 버전 관리를 시작할 디렉토리에서 진행
 - git의 관리를 받기 시작한 디렉토리 경로 옆 (master) 생성
 - 폴더 숨김 항목에 .git 폴더 생성 git으로 관리하겠다 선언
+- 주의사항
+  - git 로컬 저장소 내에 또 다른 git 로컬 저장소를 만들지 말 것
+    * 즉, 이미 git 로컬 저장소인 디렉토리 내부 하단에서 git init 명령어를 다시 입력하지 말 것
+  - git 저장소 안에 git 저장소가 있을 경우 가장 바깥 쪽의 git 저장소가 안쪽의 git 저장소의 변경사항을 추적할 수 없기 때문
 
 ### `git add`
 : 변경사항이 있는 파일을 staging area에 추가
@@ -70,7 +74,56 @@
 : 로컬 저장소의 파일 상태 확인
 
 ### `git log`
-: commit 목록 확인
+: commit history 확인
+
+### `git log --online`
+: commit 목록 한 줄로 보기
+
+### `git config --global -l`
+: git global 설정 정보 보기
+
+### `git remote add origin "경로"`
+: 로컬 저장소에 원격 저장소 추가
+- `origin`: 추가하는 원격 저장소 별칭
+  - 별칭을 사용해 로컬 저장소 한 개에 여러 원격 저장소를 추가할 수 있음
+- `"경로"`: 추가하는 원격 저장소의 URL
+
+### `git remote -v`
+: 등록된 원격 저장소 목록 확인
+
+### `git push origin master`
+: 원격 저장소에 commit 목록을 업로드
+- "origin이라는 이름의 원격 저장소에 master라는 이름의 branch를 push해줘."
+- 최초 push 시, GitHub으로부터 인증서(git credential) 발급 필요
+  - 해당 원격 저장소에 push할 수 있는 권한이 있는지 확인하기 위함
+
+![push1](image-2.png)
+![push2](image-3.png)
+![push3](image-4.png)
+![push4](image-5.png)
+
+#### 원격 저장소에는 commit이 올라가는 것
+- commit 이력이 없다면 push 할 수 없다.
+
+### `git pull origin master`
+: 원격 저장소의 변경사항만을 받아옴 (업데이트)
+
+### `git clone remote_repo_url`
+: 원격 저장소 전체를 복제 (다운로드)
+- clone으로 받은 프로젝트는 이미 git init이 되어 있음
+
+![pull/clone1](image-7.png)
+![pull/clone2](image-8.png)
+![pull/clone3](image-9.png)
+![pull/clone4](image-10.png)
+
+
+
+
+
+
+![alt text](image-6.png)
+
 
 
 ```bash
@@ -178,7 +231,9 @@ $ git commit -m "GIT 복습 위해 sam.txt 수정"
 ```bash
 ```
 
-
+### 로컬(local)
+현재 사용자가 직접 접속하고 있는 기기 또는 시스템
+개인 컴퓨터, 노트북, 태블릿 등 사용자가 직접 조작하는 환경
 
 
 
@@ -198,8 +253,9 @@ stra--- -> repository로 넘어감
 
 - git은 로컬 저장소 내 모든 파일의 **'변경사항'**을 감사히고 있다.
 
-### 원격 저장소
+### 원격 저장소(Remote Repository)
 코드와 버전 관리 이력을 온라인 상의 특정 위치에 저장하여 여러 개발자가 협업하고 코드를 공유할 수 있는 저장 공간
+- ex) GitLab, GitHub, Bitbucket
 
 Add a README file -> 
 
