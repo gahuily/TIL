@@ -21,9 +21,19 @@ class PersonQuizApp:
         btn_frame = tk.Frame(self.master)
         btn_frame.pack(pady=10)
         for i in range(3):
-            btn = tk.Button(btn_frame, text='', width=20, height=2, relief='solid', bd=2,
-                            command=lambda idx=i: self.select_feature(idx))
-            btn.grid(row=0, column=i, padx=5)
+            btn = tk.Button(
+                btn_frame,
+                text='',
+                width=36,   # 적당한 가로
+                height=12,  # 적당한 세로 (6:4 비율)
+                font=('Arial', 14),
+                wraplength=430,  # 가로 픽셀에 맞춰 줄바꿈
+                justify='center',
+                relief='solid',
+                bd=2,
+                command=lambda idx=i: self.select_feature(idx)
+            )
+            btn.grid(row=0, column=i, padx=10, pady=5, sticky='nsew')
             self.feature_buttons.append(btn)
         self.next_btn = tk.Button(self.master, text='다음', command=self.next_person)
         self.next_btn.pack(pady=20)
