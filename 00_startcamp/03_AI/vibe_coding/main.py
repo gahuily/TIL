@@ -43,18 +43,57 @@ class PersonQuizApp:
             self.finish()
             return
         person = self.data[self.index]
-        self.name_label.config(text=person['이름'])
-        for i, key in enumerate(['특징1', '특징2', '특징3']):
-            self.feature_buttons[i].config(
-                text=person[key],
-                bg='SystemButtonFace',
-                fg='black',
-                highlightbackground='black',
-                highlightcolor='black',
-                highlightthickness=2,
-                bd=2,
-                relief='solid'
-            )
+        # 이름: '이름' 컬럼 우선, 없으면 첫 번째 컬럼값
+        name = person.get('이름')
+        if name is None:
+            for k in person.keys():
+                if k.strip() == '이름':
+                    name = person[k]
+                    break
+        if name is None:
+            name = list(person.values())[0]
+        self.name_label.config(text=name)
+        # 특징: '특징1','특징2','특징3' 컬럼 우선, 없으면 이름 컬럼을 제외한 값이 있는 컬럼 최대 3개
+        features = []
+        for key in ['특징1', '특징2', '특징3']:
+            v = person.get(key)
+            if v and v.strip():
+                features.append(v.strip())
+        if not features:
+            for k in person.keys():
+                if k.strip() == '이름':
+                    continue
+                v = person[k]
+                if v and v.strip():
+                    features.append(v.strip())
+                if len(features) == 3:
+                    break
+        # 버튼에 특징 채우기, 부족하면 '데이터 없음'
+        for i in range(3):
+            if i < len(features):
+                self.feature_buttons[i].config(
+                    text=features[i],
+                    state='normal',
+                    bg='SystemButtonFace',
+                    fg='black',
+                    highlightbackground='black',
+                    highlightcolor='black',
+                    highlightthickness=2,
+                    bd=2,
+                    relief='solid'
+                )
+            else:
+                self.feature_buttons[i].config(
+                    text='(데이터 없음)',
+                    state='disabled',
+                    bg='SystemButtonFace',
+                    fg='gray',
+                    highlightbackground='black',
+                    highlightcolor='black',
+                    highlightthickness=2,
+                    bd=2,
+                    relief='solid'
+                )
         self.selected = None
 
     def select_feature(self, idx):
@@ -85,7 +124,17 @@ class PersonQuizApp:
         if self.selected is None:
             messagebox.showwarning('경고', '특징을 선택하세요!')
             return
-        self.selections.append({'이름': self.data[self.index]['이름'], '선택': self.selected + 1})
+        person = self.data[self.index]
+        # 이름: '이름' 컬럼 우선, 없으면 첫 번째 컬럼값
+        name = person.get('이름')
+        if name is None:
+            for k in person.keys():
+                if k.strip() == '이름':
+                    name = person[k]
+                    break
+        if name is None:
+            name = list(person.values())[0]
+        self.selections.append({'이름': name, '선택': self.selected + 1})
         self.index += 1
         self.show_person()
 
@@ -101,10 +150,11 @@ class PersonQuizApp:
 def load_data(filename):
     with open(filename, encoding='utf-8') as f:
         reader = csv.DictReader(f)
-        return list(reader)
+        data = list(reader)
+        return data
 
 def main():
-    data = load_data('data.csv')
+    data = load_data('14기 대전 4반 자기소개 - 시트1.csv')
     root = tk.Tk()
     app = PersonQuizApp(root, data)
     root.mainloop()
