@@ -44,18 +44,22 @@ class PersonQuizApp:
             if i == idx:
                 btn.config(
                     bg='#ffe5e5',  # 옅은 붉은색 배경
+                    fg='red',      # 글자색도 붉게
                     highlightbackground='red',
                     highlightcolor='red',
                     highlightthickness=3,
-                    bd=3
+                    bd=3,
+                    relief='ridge'  # 좀 더 강조
                 )
             else:
                 btn.config(
                     bg='SystemButtonFace',
+                    fg='black',
                     highlightbackground='black',
                     highlightcolor='black',
                     highlightthickness=2,
-                    bd=2
+                    bd=2,
+                    relief='solid'
                 )
 
     def next_person(self):
