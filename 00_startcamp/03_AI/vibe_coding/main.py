@@ -35,7 +35,16 @@ class PersonQuizApp:
         person = self.data[self.index]
         self.name_label.config(text=person['이름'])
         for i, key in enumerate(['특징1', '특징2', '특징3']):
-            self.feature_buttons[i].config(text=person[key], bg='SystemButtonFace', highlightbackground='black', highlightcolor='black', highlightthickness=2, bd=2, relief='solid')
+            self.feature_buttons[i].config(
+                text=person[key],
+                bg='SystemButtonFace',
+                fg='black',
+                highlightbackground='black',
+                highlightcolor='black',
+                highlightthickness=2,
+                bd=2,
+                relief='solid'
+            )
         self.selected = None
 
     def select_feature(self, idx):
