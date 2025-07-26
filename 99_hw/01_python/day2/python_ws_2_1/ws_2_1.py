@@ -15,8 +15,12 @@ class MovieTheater:
     def __init__(self, name, total_seats):
         self.name = name
         self.total_seats = total_seats
-
-    def reserved_seats(name, total_seats):
         reserved_seats = 0
 
-    def movie_info():
+    def movie_info(self):
+        print(self.name)
+
+m = MovieTheater('메가박스', 320)
+c = MovieTheater('CGV', 300)
+m.movie_info()
+c.movie_info()
