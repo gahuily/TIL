@@ -15,12 +15,18 @@ class MovieTheater:
     def __init__(self, name, total_seats):
         self.name = name
         self.total_seats = total_seats
-        reserved_seats = 0
+        # reserved_seats = 0
+        # reservedf_seats 앞에 self 붙여줘야함
+        self.reserved_seats = 0
 
-    def movie_info(self):
-        print(self.name)
+    # def movie_info(self):
+    def __str__(self):
+        # print(self.name)
+        return self.name
 
 m = MovieTheater('메가박스', 320)
 c = MovieTheater('CGV', 300)
-m.movie_info()
-c.movie_info()
+# m.movie_info()
+# c.movie_info()
+print(m)
+print(c)
