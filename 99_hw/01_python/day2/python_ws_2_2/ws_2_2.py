@@ -9,3 +9,29 @@
 # current_status 메서드는 총 좌석 수와 예약된 좌석 수를 출력한다.
 
 # 아래에 코드를 작성하시오.
+
+class MovieTheater:
+    def __init__(self, name, total_seats):
+        self.name = name
+        self.total_seats = total_seats
+        self.reserved_seats = 0
+    
+    def reserve_seat(self):
+        # if self.total_seats > 0:
+        if self.reserved_seats < self.total_seats:
+            self.reserved_seats += 1
+            return('좌석 예약이 완료되었습니다.')
+        else:
+            return('좌석 예약을 실패하였습니다.')
+    
+    def current_status(self):
+        print(f'총 좌석 수: {self.total_seats}')
+        print(f'예약된 좌석 수: {self.reserved_seats}')
+
+m = MovieTheater('메가박스', 100)
+
+print(m.reserve_seat())
+print(m.reserve_seat())
+print(m.reserve_seat())
+
+m.current_status()
