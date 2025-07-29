@@ -268,7 +268,6 @@ for (const property in object) {
     console.log(object[property])   // apple, banana
 }
 ```
-# *여기에서 나타난 object는 무엇인가...*
 
 ### for...of
 - 반복 가능한 객체(배열, 문자열 등)에 대해 반복
@@ -283,12 +282,18 @@ for (const number of numbers) {
 
 ### 배열 반복과 for...in
 *(수업 시간 언급은 없었음)*
+- 객체 관점에서 배열의 인덱스는 정수 이름을 가진 열거 가능한 속성
+- for...in은 정수가 아닌 이름과 속성을 포함하여 열거 가능한 모든 속성을 반환
+- 내부적으로 for...in은 배열의 반복자가 아닌 속성 열거를 사용하기 때문에 특정 순서에 따라 인덱스를 반환하는 것을 보장할 수 없음
+- for...in은 인덱스의 순서가 중요한 **배열에서는 사용하지 않음**
+- 배열에서는 **for문, for...of를 사용**
+- 객체 관점에서 배열의 인덱스는 정수 이름을 가진 속성이기 때문에 인덱스가 출력됨 (순서 보장 X)
 
 ### 반복문 사용 시 const 사용 여부
 *(수업 시간 언급은 없었음)*
 - for 문
     - `for (let i = 0; i < arr.length; i++) {...}`
-    - 최초 정의한 i를 "재할당"하면서 사용하기 때문에 const를  사용하면 에러 발생
+    - 최초 정의한 i를 "재할당"하면서 사용하기 때문에 **const를 사용하면 에러 발생**
 
 - for...in, for...of
     - 재할당이 아니라, 매 반복마다 다른 속성 이름이 변수에 저장되는 것이므로 **const 사용해도 에러 발생 X**
@@ -331,9 +336,6 @@ for (const number of numbers) {
 
 ### 브라우저가 웹 페이지를 불러오는 과정
 - 웹 페이지는 웹 브라우저를 통해 해석되어 웹 브라우저 화면에 나타남
-
-### DOM 핵심
-: 문서의 요소들을 객체로 제공하여 다른 프로그래밍 언어에서 접근하고 조작할 수 있는 방법을 제공하는 API
 
 ### DOM 핵심
 : 문서의 요소들을 객체로 제공하여 다른 프로그래밍 언어에서 접근하고 조작할 수 있는 방법을 제공하는 API
@@ -381,6 +383,7 @@ for (const number of numbers) {
 
 ### 클래스 속성 조작
 `classList` property
+
 : 요소의 클래스 목록을 DOMTokenList(유사 배열) 형태로 변환
 
 ### 1. classList method
@@ -400,6 +403,7 @@ for (const number of numbers) {
 
 ## HTML 콘텐츠 조작
 `textContent` property
+
 : 요소의 텍스트 콘텐츠를 표현
 
 ### HTML 콘텐츠 조작 실습
@@ -425,6 +429,7 @@ console.log(h1Tag.textContent)
 
 ## style 조작
 `style` property
+
 : 해당 요소의 모든 style 속성 목록을 포함하는 속성
 
 ### style 조작 실습
@@ -552,15 +557,34 @@ const funcName = function () {
 
 ### 화살표 함수 작성 결과
 ```javascript
+const arrow = function (name) {
+    return `hello, ${name}`
+}
 ```
 ```javascript
+const arrow = name => `hello, ${name}`
 ```
 
 ### 화살표 함수 작성 과정
 1. **function 키워드 제거 후 매개변수와 중괄호 사이에 화살표(=>) 작성**
-2. ----- 나머지는 걍 잘 확인해보시길
+
+*(나머지는 걍 잘 확인해보시길)*
+
+2. 함수의 매개변수가 하나 뿐이라면, 매개변수의 '()' 제거 가능 (단, 생략하지 않는 것을 권장)
+3. 함수 본문의 표현식이 한 줄이라면, '{}'와 'return' 제거 가능
 
 ### 화살표 함수 심화
+```javascript
+// 1. 인자가 없다면 () or _ 로 표시 가능
+const noArgs1 = () => 'No args'
+const noArgs1 = _ => 'No args'
+
+// 2-1. object를 return한다면 return을 명시적으로 작성해야 함
+const returnObject1 = () => { return { key: 'value' } }
+
+// 2-2. return을 작성하지 않으려면 객체를 소괄호롤 감싸야 함
+const returnObject2 = () => ({ key: 'value' })
+```
 
 ## 참고
 
@@ -574,60 +598,347 @@ const funcName = function () {
 # 이벤트
 
 ### 일상 속의 이벤트
+- 키보드 눌러 텍스트 입력
+- 전화벨 울려 전화 왔음을 알림
+- 손 흔들어 인사
+- 전화기 버튼 눌러 통화 시작
+- 리모컨 사용하여 채널 변경
 
 ### 웹에서의 이벤트
+- 화면 스크롤
+- 버튼 클릭 후 팝업 창 출력
+- 마우스 커서 위치에 따라 드래그 앤 드롭
+- 키보드 입력 값에 따라 새로운 요소 생성
+- 웹에서의 모든 동작은 **이벤트 발생과 함께 한다**
 
 
 ## event 객체
 
 ### event
 : 무언가 일어났다는 신호, 사건
-- -----
+- 모든 DOM 요소는 이러한 event를 만들어 냄
 
 ### `event` object
 : DOM에서 이벤트가 발생했을 때 생성되는 객체
 - 이벤트 종류
     - mouse, input, keyboard, touch ...
 
-**DOM 요소는 event를 받고 받은 event를 '처리'할 수 있음**
-
-
+### **DOM 요소는 event를 받고 받은 event를 '처리'할 수 있음**
+- event handler(이벤트 처리기)
 
 ## event handler
 : 이벤트가 발생했을 때 실행되는 함수
 - 사용자의 행동에 어떻게 반응할지를 JavaScript 코드로 표현한 것
 
 ### `.addEventlistener()`
-대표적인 ----- 이거 무시하는 멘트
 - 특정 이벤트를 DOM 요소가 수신할 때마다 콜백 함수를 호출
 ```javascript
 EventTarget.addEventListener(type, handler)
 // EventTarget - DOM 요소
 // type - 수신할 이벤트
+// handler - 콜백 함수
 ```
-"대상에 특정 Event가 발생하면, -----"
+"대상(`EventTarget`)에 특정 Event(`type`)가 발생하면, 지정한 이벤트를 받아 할 일(`handler`)을 등록한다."
+
+### `addEventListener`의 인자
+- type
+    - 수신할 이벤트 이름
+    - 문자열로 작성 (ex. 'click')
+
+- handler
+    - 발생한 이벤트 객체를 수신하는 콜백 함수
+    - 콜백 함수는 발생한 event object를 유일한 매개변수로 받음
 
 ### addEventListener 활용
--=---
+- "버튼을 클릭하면 버튼 요소 출력하기"
+- 버튼에 이벤트 처리기를 부착하여 클릭 이벤트가 발생하면 이벤트가 발생한 버튼정보를 출력
+- 요소에 addEventListener를 부착하게 되면 내부의 this 값은 대상 요소를 가리키게 됨 (event 객체의 currentTarget 속성 값과 동일)
+```html
+<button id="btn">버튼</button>
+```
+```javascript
+// 1. 버튼 선택
+const btn = document.querySelector('#btn')
 
+// 2. 콜백 함수
+const detectClick = function (event) {
+    console.log(event)  // PointerEvent
+    console.log(event.currentTarget)    // <button id="btn">버튼</button>
+    console.log(this)   // <button id="btn">버튼</button>
+}
+
+// 3. 버튼에 이벤트 핸들러를 부착
+btn.addEventListener('click', detectClick)
+```
+### addEventListener의 콜백 함수 특징
+- 발생한 이벤트를 나타내는 event 객체를 유일한 매개변수로 받음
+- 반환 값 없음
+```javascript
+const detectClick = function (event) {
+    ...
+}
+```
 
 ## 버블링
 
 ### 버블링 개요
+- form > div > p 형태의 중첩된 구조에 각각 이벤트 핸들러가 있을 때 만약 \<p> 요소를 클릭하면 어떻게 될까?
+```html
+<form id="form">
+form
+<div id="div">
+    div
+    <p id="p">p</p>
+</div>
+</form>
+```
+```javascript
+const formElement = document.querySelector('#form')
+const divElement = document.querySelector('#div')
+const pElement = document.querySelector('#p')
 
+const clickHandler1 = function (event) {
+    console.log('form이 클릭되었습니다.')
+}
+const clickHandler2 = function (event) {
+    console.log('div가 클릭되었습니다.')
+}
+const clickHandler3 = function (event) {
+    console.log('p가 클릭되었습니다.')
+}
+
+formElement.addEventListener('click', clickHandler1)
+divElement.addEventListener('click', clickHandler2)
+pElement.addEventListener('click', clickHandler3)
+```
+- \<p> 요소만 클릭했는데도 불구하고 모든 핸들러가 동작함
+- 왜 p를 클릭했는데 div와 form에 할당된 핸들러까지 동작할까?
+![버블링 <p>](image-2.png)
+
+### 버블링(Bubbling)
+- 한 요소에 이벤트가 발생하면, 이 요소에 할당된 핸들러가 동작하고, 이어서 부모 요소의 핸들러가 동작하는 현상
+- 가장 최상단의 조상 요소(document)를 만날 때까지 이 과정이 반복되면서 요소 각각에 할당된 핸들러가 동작
+- 이벤트가 제일 깊은 곳에 있는 요소에서 시작해 부모 요소를 거슬러 올라가며 발생하는 것이 마치 물 속 거품과 닮았기 때문
+- 가장 안 쪽의 \<p> 요소를 클릭하면 p -> div -> form 순서로 3개의 이벤트 핸들러가 모두 동작했던 것
+
+### 이벤트가 정확히 어디서 발생했는지 접근할 수 있는 방법
+- `event.currentTarget`
+- `event.target`
+
+### currentTarget & target 속성
+
+- `currentTarget` 속성
+    - '현재' 요소
+    - 항상 이벤트 핸들러가 연결된 요소만을 참조하는 속성
+    - 'this'와 같음
+
+- `target` 속성
+    - 이벤트가 발생한 가장 안쪽의 요소(target)를 참조하는 속성
+    - 실제 이벤트가 시작된 요소
+    - 버블링이 진행되어도 변하지 않음
+
+### 'target' & 'currentTarget' 예시
+![target&currentTarget](image-3.png)
+- 세 요소 중 가장 최상위 요소인 outerouter 요소에만 핸들러 부착
+- 각 요소 클릭했을 때 event의 target과 currentTarget의 차이 비교
+- 'currentTarget'
+    - 핸들러가 연결된 outerouter 요소만을 가리킴
+- 'target'
+    - 실제 이벤트가 발생하는 요소를 가리킴
+- 핸들러는 outerouter에만 할당되어 있지만 하위 요소 outer와 inner를 클릭해도 해당 핸들러가 동작
+- 클릭 이벤트가 어디서 발생했든 상관없이 outerouter까지 이벤트가 버블링되어 핸들러를 실행시키기 때문
+
+
+### 캡처링(capturing)
+- 이벤트가 하위 요소로 전파되는 단계(버블링과 반대)
+![캡처링(capturing)](image-4.png)
+
+### 캡처링과 버블링
+- table 안에 td를 클릭하면 이벤트는 최상위 요소부터 아래로 전파
+- 실제 이벤트가 발생한 지점(event.target)에서 실행된 후 다시 위로 전파
+    - 이 과정에서 상위 요소에 할당된 이벤트 핸들러가 호출되는 것
+- 캡처링은 실제 다루는 경우가 거의 없으므로 버블링에 집중
+
+### 버블링 필요한 이유
+- 각자 다른 동작 수행하는 버튼 여러 개 존재
+- 각 버튼마다 서로 다른 이벤트 핸들러 할당?
+    > 각 버튼의 **공통 조상인 div 요소에 이벤트 핸들러 단 하나만 할당**하기
+- 요소의 공통 조상에 이벤트 핸들러를 단 하나만 할당하면 여러 요소를 한꺼번에 다룰 수 있음
+- 공통 조상에 할당한 핸들러에서 `event.target`을 이용하면 실제 어떤 버튼에서 이벤트가 발생했는지 알 수 있기 때문
+```javascript
+// 예시
+const divTag = document.querySElector('div')
+
+divTag.addEventListener('click', function (event) {
+    console.log(event.target)
+})
+```
 
 
 # event handler 활용
 
+### event handler 활용 실습
+1. 버튼을 클릭하면 숫자를 1씩 증가해서 출력하기
+2. 사용자의 입력 값을 실시간으로 출력하기
+3. 사용자의 입력 값을 실시간으로 출력
+    
+    '+' 버튼을 클릭하면 출력한 값의 CSS 스타일을 변경하기
+4. todo 프로그램 구현
+5. 로또 번호 생성기 구현
 
+### 1. click 이벤트 실습
+- 버튼을 클릭하면 숫자가 1씩 증가
+```html
+<button id="btn">버튼</button>
+<p>클릭횟수 : <span id="counter">0</span><p>
+```
+```javascript
+// 1. 초기값 할당
+let counterNumber = 0
 
+// 2. 버튼 요소 선택
+const btn = document.querySelector('#btn')
 
+// 3. 콜백 함수 (버튼에 클릭 이벤트가 발생할 때마다 실행할 코드)
+const clickHandler = function () {
+    // 3-1. 초기값 += 1
+    counterNumber += 1
+    // 3-2. p 요소를 선택
+    const spanTag = document.querySelector('#counter')
+    // 3-3. p 요소의 콘텐츠를 1 증가한 초기값으로 설정
+    spanTag.textContent = counterNumber
+}
+
+// 4. 버튼에 이벤트 핸들러 부착 (클릭 이벤트)
+btn.addEventListener('click', clickHandler)
+```
+
+### 2. input 이벤트 실습
+- 사용자의 입력 값을 실시간으로 출력하기
+```html
+<input type="text" id="text-input">
+<p></p>
+```
+```javascript
+// 1. input 요소 선택
+const inputTag = documnet.quearySelector('#text-input')
+
+// 2. p 요소 선택
+const pTag = document.querySelector('p')
+
+// 3. 콜백 함수 (input 요소에 input 이벤트가 발생할 때마다 실행할 코드)
+const inputHandler = function (event) {
+    // 3-1. 작성하는 데이터가 어디에 누적되고 있는지 찾기
+    // console.log(event.currentTarget)
+    console.log(event.currentTarget.value)
+    // 3-2. p 요소의 콘텐츠에 작성하는 데이터를 추가
+    pTag.textContent = event.currentTarget.value
+}
+
+// 4. input 요소에 이벤트 핸들러 부착 (input 이벤트)
+inputTag.addEventListener('input', inputHandler)
+```
+
+### 'currentTarget' 주의사항
+- `console.log()`로 `event` 객체를 출력할 경우 `currentTarget` 키의 값은 `null`을 가짐
+- `currentTarget`은 이벤트가 처리되는 동안에만 사용할 수 있기 때문
+- 대신 `console.log(event.currentTarget)`을 사용하여 콘솔에서 확인 가능
+    > `currentTarget` 이후의 속성 값들은 **'`target`'을 참고해서 사용하기**
+
+### 3. click & input 이벤트 실습
+- 사용자의 입력 값을 실시간으로 출력
+    '+' 버튼을 클릭하면 출력한 값의 CSS 스타일을 변경하기
+```html
+<head>
+    <style>
+        .blue {
+            color: blue;
+        }
+    </style>
+</head>
+
+<body>
+    <h1></h1>
+    <button id="btn">클릭</button>
+    <input type="text" id="text-input">
+</body>
+```
+```javascript
+// input 구현
+const inputTag = document.querySelector('#text-input')
+const h1Tag = document.querySelector('h1')
+
+const inputHandler = function (event) {
+    h1Tag.textContent = event.currentTarget.value
+}
+
+inputTag.addEventListener('input', inputHandler)
+
+// click 구현
+const btn = document.querySelector('#btn')
+
+const clickHandler = function () {
+    // 1. add 방법
+    h1Tag.classList.add('blue')
+    // 2. toggle 방법
+    h1Tag.classList,=.toggle('blue')
+    // 3. if 방법
+    if (h1Tag.classList.value) {
+        h1Tag.classList.remove('blue')
+    } else {
+        h1Tag.classList.add('blue')
+    }
+}
+
+btn.addEventListener('click', clickHandler)
+```
 
 # 이벤트 기본 동작 취소
------ 이건 꼭 알고 가면 좋겠다
+*(이건 꼭 알고 가면 좋겠다)*
 - HTML의 각 요소가 기본적으로 가지고 있는 이벤트가 때로는 방해가 되는 경우가 있어 이벤트의 기본 동작을 취소할 필요가 있음
 - 예시
-    - form 요소의 제출 이벤트를 취소하여 -----
+    - form 요소의 제출 이벤트를 취소하여 페이지 새로고침을 막을 수 있음
+    - a 요소를 클릭할 때 페이지 이동을 막고 추가 로직을 수행할 수 있음
 
 ### `.preventDefault()`
 : 해당 이벤트에 대한 기본 동작을 실행하지 않도록 지정
+
+### 이벤트 동작 취소 실습
+- copy 이벤트 동작 취소
+    - 콘텐츠를 복사하는 것을 방지
+```html
+<h1>중요한 내용<h1>
+
+<script>
+    const h1Tag = document.querySelector('h1')
+
+    h1Tag.addEventListener('copy', function (event) {
+        console.log(event)
+        event.preventDefault()
+        alert('복사할 수 없습니다.')
+    })
+</script>
+```
+- form 제출 시 페이지 새로고침 동작 취소
+    - form 요소의 submit 동작(action 값으로 요청)을 취소시킴
+```html
+<form id="my-form">
+    <input type="text" name="username">
+    <button type="submit>Submit</button>
+</form>
+```
+```javascript
+const formTag = document.querySelector('#my-form')
+
+const handleSubmit = function (event) {
+    event.preventDefault()
+}
+
+formTag.addEventListener('submit', handleSubmit)
+```
+
+## 참고
+
+### addEventListener에서의 화살표 함수 주의사항
+- 화살표 함수는 자신만의 this를 가지지 않기 때문에 자신을 포함하고 있는 함수의 this를 상속받음
+    > this를 사용해야하는 경우 addEventListener에서는 일반 함수로 사용하기
