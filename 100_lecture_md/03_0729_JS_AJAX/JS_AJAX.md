@@ -655,7 +655,24 @@ console.log('c')
 - 이름에 XML이라는 데이터 타입이 들어가긴 하지만 XML 뿐만 아니라 모든 종류의 데이터를 가져올 수 있음
 
 ### XHR 구조
------
+- HTTP 요청을 생성하고 전송하는 기능을 제공
+- AJAX 요청을 통해 서버에서 데이터를 가져와 웹 페이지에 동적으로 표시
+
+### 기존 기술과의 차이 - 기존 방식
+1. 클라이언트(브라우저)에서 form을 채우고 이를 서버로 제출(submit)
+2. 서버는 요청 내용에 따라 데이터 처리 후 새로운 웹페이지를 작성하여 응답으로 전달
+- 결과적으로 모든 요청에 따라 새로운 페이지를 응답 받기 때문에 계속해서 새로고침이 발생
+- 기존 페이지와 유사한 내용을 가지고 있는 경우 중복된 코드를 다시 전송 받음으로써 대역폭을 낭비하게 되는 경우가 많음
+
+### 기존 기술과의 차이 - AJAX
+1. XHR 객체 생성 및 요청
+2. 서버는 새로운 페이지를 응답으로 만들지 않고 필요한 부분에 대한 데이터만 처리 후 응답(JSON 및 기타 데이터)
+- 새로운 페이지를 받는 것이 아닌 필요한 부분의 데이터만 받아 기존 페이지의 일부를 수정 (새로고침 X)
+- 서버에서 모두 처리되던 데이터 처리의 일부분이 이제는 클라이언트 쪽에서 처리되므로 교환되는 데이터 양과 처리 양이 줄어듦
+
+### 이벤트 핸들러는 비동기 프로그래밍의 한 형태
+- 이벤트가 발생할 때마다 호출되는 함수(콜백 함수)를 제공하는 것
+- HTTP 요청은 응답이 올 때까지 시간이 걸릴 수 있는 작업이라 비동기며, 이벤트 핸들러를 XHR 객체에 연결해 요청의 진행 상태 및 최종 완료에 대한 응답을 받음
 
 # Callback과 Promise
 
@@ -669,57 +686,205 @@ console.log('c')
 - 콜백 함수를 사용하자!
 
 ### 비동기 콜백
-- 비동기적으로 처리되는 작업이 완료되었을 대 실행되는 함수
+- 비동기적으로 처리되는 작업이 완료되었을 때 실행되는 함수
 - 연쇄적으로 발생하는 비동기 작업을 **순차적으로 동작**할 수 있게 함
 - ------
 
 ### 비동기 콜백의 한계
+- 비동기 콜백 함수는 보통 어떤 기능의 실행 결과를 받아서 다른 기능을 수행하기 위해 많이 사용됨
+- 이 과정을 작성하다 보면 비슷한 패턴이 계속 발생
+    - A를 처리해서 결과가 나오면, 첫 번째 callback 함수를 실행하고 첫 번째 callback 함수가 종료되면, 두 번째 callback 함수를 실행하고 두 번째 callback 함수가 종료되면, 세 번째 callback 함수를 실행하고 ...
 
+- "콜백 지옥" 발생
 
 
 ### 콜백 지옥 (Callback Hell)
-
+- 비동기 처리를 위한 콜백을 작성할 때 마주하는 문제
+![Callback Hell](image-4.png)
 
 ### 콜백 함수 정리
-- 콜백 함수는 비동기 작업을 순차적으로 실행할 수 있게 하는 ...
+- 콜백 함수는 비동기 작업을 순차적으로 실행할 수 있게 하는 반드시 필요한 로직
+- 비동기 코드를 작성하다 보면 콜백 함수로 인한 콜백 지옥은 빈번히 나타나는 문제며 이는 코드의 가독성을 해치고 유지 보수가 어려워짐
+- 지옥에 빠지지 않는 다른 표기 형태가 필요
 
 ## 프로미스
 : JavaScript에서 비동기 작업의 결과를 나타내는 객체
-- 비동기 작업이 완료 -----
+- 비동기 작업이 완료되었을 때 결과 값을 반환하거나, 실패 시 에러를 처리할 수 있는 기능을 제공
 
 ### "Promise" object
 - 자바스크립트에서 비동기 작업을 처리하기 위한 객체
 - 비동기 작업의 성공 또는 실패와 관련된 결과나 값을 나타냄
+- 콜백 지옥 문제를 해결하기 위해 등장한 비동기 처리를 위한 객체
+- "작업이 끝나면 실행시켜 줄게"라는 약속
+    - 성공에 대한 약속 `then()`
+    - 실패에 대한 약속 `catch()`
+```javascript
+const fetchData = () => {
+    return new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest()
+        xhr.open('GET', 'https://api.thecatapi.com/v1/images/search')
+        xhr.send()
+    })
+}
+const promiseObj = fetchData()
+console.log(promiseObj) // Promise object
+```
 
 ### 비동기 콜백 vs Promise
+```javascript
+// 비동기 콜백 방식
+work1(function () {
+    // 첫 번째 작업 ...
+    work2(result1, function (result2) {
+        // 두 번째 작업 ...
+        work3(result2, function (result3) {
+            console.log('최종 결과 :' + result3)
+        })
+    })
+})
+```
+```javascript
+// promise 방식
+work1()
+    .then((result1) => {
+        // work2
+        return result2
+    })
+    .then((result2) => {
+        // work3
+        return result3
+    })
+    .catch((error) => {
+        // error handling
+    })
+```
 
 ### then 메서드 chaining의 목적
 - 비동기 작업의 **"순차적인"** 처리 가능
 - 코드를 보다 직관적이고 가독성 좋게 작성할 수 있도록 도움
 
 ### then 메서드 chaining의 장점
-
-
-성공에 대한 약속 then()
-실패에 대한 약속 catch()
-
+1. 가독성
+    - 비동기 작업 순서와 의존 관계 명확히 표현, 가독성 ↑
+2. 에러 처리
+    - 각 비동기 작업 단계 에러 분할에서 처리 가능
+3. 유연성
+    - 각 단계마다 필요한 데이터 가공 또는 다른 비동기 작업 수행 가능, 더 복잡한 비동기 흐름 구성 가능
+4. 코드 관리
+    - 비동기 작업 분리하여 구성하면 관리 용이
 
 ### Promise가 보장하는 것 (vs 비동기 콜백)
-
+1. 콜백 함수는 JavaScript의 Event Loop가 현재 실행 중인 Call Stack을 완료하기 이전에는 절대 호출되지 않음
+    - 반면 Promise callback 함수는 Event Queue에 배치되는 엄격한 순서로 호출됨
+2. 비동기 작업이 성공하거나 실패한 뒤에 `then` 메서드를 이용하여 추가한 경우에도 **호출 순서를 보장**하며 동작
+3. `then`을 여러 번 사용하여 여러 개의 callback 함수를 추가할 수 있음
+    - 각각의 callback은 주어진 순서대로 하나하나 실행하게 됨
+    - Chaining은 Promise의 가장 뛰어난 장점
 
 # Axios
 : JavaScript에서 사용되는 HTTP 클라이언트 라이브러리
 
 ### Axios 정의
-: 클라이언트 및 서버 사이에 HTTP 요청을 만들고 -----
+: 클라이언트 및 서버 사이에 HTTP 요청을 만들고 응답을 처리하는 데 사용되는 자바스크립트 라이브러리
+- 서버와의 HTTP 요청과 응답을 간편하게 처리할 수 있또록 도와주는 도구
+- 브라우저를 위한 XHR 객체 생성
+- 간편한 API를 제공하며, Promise 기반의 비동기 요청을 처리
+- 주로 웹 애플리케이션에서 서버와 통신할 때 사용
 
 ### AJAX를 활용한 클라이언트 서버 간 동작
+XHR 객체 생성 및 요청
+-> 응답 데이터 생성
+-> JSON 데이터 응답
+-> Promise 객체 데이터를 활용해 DOM 조작
+(웹 페이지의 일부분만을 다시 로딩)
 
-### Axios 활용
+### Axios 사용
+- CDN 방식으로 사용
+- https://axios-http.com/
+```html
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"><script>
+```
+
+### Axios 구조
+- `axios` 객체를 활용해 요청을 보낸 후 응답 데이터를 `promise` 객체를 받음
+- `promise` 객체는 `then`과 `catch` 메서드를 활용해 각각 필요한 로직을 수행
+```javascript
+const promiseObj = axios({
+    method: 'get',
+    url: 'https://api.thecatapi.com/v1/images/search'
+})
+
+console.log(promiseObj) // Promise object
+
+promiseObj.then((response) => {
+    console.log(response) // Response object
+    console.log(response.data)  // Response data
+})
+```
+```javascript
+axios({
+    method: 'get',
+    url: 'https://api.thecatapi.com/v1/images/search'
+})
+    .then((response) => {
+    console.log(response)
+    console.log(response.data)
+    })
+```
+- `then` 메서드를 사용해서 "성공하면 수행할 로직"을 작성
+- `catch` 메서드를 사용해서 "실패하면 수행할 로직"을 작성
+```javascript
+axios({
+    method: 'post',
+    url: '/user/12345',
+    data: {
+        firstName: 'Fred',
+        lastName: 'Flintstone'
+    }
+})
+    .then(요청에 성공하면 수행할 콜백함수)
+    .catch(요청에 실패하면 수행할 콜백함수)
+```
+
+### then & catch의 chaining
+- `axios`로 처리한 비동기 로직은 항상 `promise` 객체를 반환
+- 즉, `then`과 `catch`는 모두 항상 `promise` 객체를 반환
+    - 계속해서 **`chaining`**을 할 수 있음
+- `then`을 계속 이어 나가면서 작성할 수 있게 됨
+```javascript
+axios({})   // Promise 객체 return
+    .then(성공하면 수행할 1번 콜백함수)
+    .then(1번 콜백함수가 성공하면 수행할 2번 콜백함수)
+    .then(2번 콜백함수가 성공하면 수행할 3번 콜백함수)
+    ...
+    .catch(실패하면 수행할 콜백함수)
+```
+
+### then & catch
+- `then(callback)`
+    - 요청한 작업이 성공하면 callback 실행
+    - callback은 이전 작업의 성공 결과를 인자로 전달 받음
+- `catch(callback)`
+    - `then()`이 하나라도 실패하면 callback 실행 (남은 then은 중단)
+    - callback은 이전 작업의 실패 객체를 인자로 전달 받음
+
+### 고양이 사진 가져오기 실습
 
 ![then 추가 실습](image.png)
 ![then 추가 실습](image-1.png)
 
+### 정리
+- `AJAX`
+    - 하나의 특정한 기술을 의미하는 것이 아니며, 비동기적인 웹 애플리케이션 개발에 사용하는 기술들을 묶어서 지칭
+
+- `Axios`
+    - 클라이언트 및 서버 사이에 HTTP 요청을 만들고 응답을 처리하는 데 사용되는 자바스크립트 라이브러리 (Promise API 지원)
+
+- 프론트엔드에서 `Axios`를 활용해 DRF로 만든 API 서버로 요청을 보내서 데이터를 받아온 후 처리하는 로직을 작성하게 됨
 
 # 참고
 ### 비동기를 사용하는 이유 - "사용자 경험"
+- 예를 들어 아주 큰 데이터 불러온 뒤 실행되는 앱이 있을 때, 동기식으로 처리한다면 데이터를 모두 불러온 후에야 앱의 실행 로직이 수행 -> 사용자들은 마치 앱이 멈춘 것과 같은 경험을 겪음
+- 즉, 동기식 처리는 특정 로직이 실행되는 동안 다른 로직 실행을 차단, 마치 프로그램이 응답하지 않는 듯한 사용자 경험 만듦
+- 비동기로 처리한다면 먼저 처리되는 부분부터 보여줌, 사용자 경험에 긍정적인 효과 볼 수 있음
+- 이와 같은 이유로 많은 웹 기능은 비동기 로직 사용해서 구현
