@@ -3,13 +3,24 @@ def clean_name(name):
     이름의 앞뒤 공백을 제거하고, 첫 글자만 대문자로 바꿉니다.
     (예: "  heLLo " -> "Hello")
     """
-    pass
+    # cl_name = name.replace(" ", "")
+    # cl_name = name.lower()
+    # cl_name = name[0].upper()
+    # return cl_name
+    name = name.strip()  # 앞뒤 공백 제거
+    if not name:
+        return ''  # 빈 문자열일 경우 그대로 반환
+    return name[0].upper() + name[1:].lower()
+
+
 def make_greeting(name):
     """
     정리된 이름을 받아 "안녕하세요, [이름]님!" 형식의 문자열로 만듭니다.
     (예: "홍길동" -> "안녕하세요, 홍길동님!")
     """
-    pass
+    greeting = clean_name(name)
+    return f'안녕하세요, {greeting}님!'
+    
 def process_namelist(name_list):
     """
     전체 이름 리스트를 받아, 비어있지 않은 이름만 골라 인사말로 만들어
@@ -17,7 +28,15 @@ def process_namelist(name_list):
     (이름이 공백으로만 이뤄진 경우는 무시합니다.)
     위에 작성한 함수들을 적절히 활용해야 합니다.
     """
-    pass
+    lst = []
+    for i in range(len(name_list)):
+        cl_name = clean_name(name_list[i])
+        if cl_name:
+            greet = make_greeting(cl_name)
+            lst.append(greet)
+        else:
+            continue
+    return lst
 # ----------------------------------------------------
 # 아래 코드는 절대 수정하지 마시오.
 # ----------------------------------------------------
