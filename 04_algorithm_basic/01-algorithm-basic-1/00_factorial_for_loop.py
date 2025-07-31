@@ -5,8 +5,8 @@
 N = 5
 # 최종 결과값
 answer = 1      # 초기값을 1로 초기화
-# 이제 1부터 N까지 answer에 곱해나갈 수 있도록 순회
-for num in range(1, N+1):   # range는 1, N-1까지 순회
+# 이제 1부터 N까지 answer에 곱해 나갈 수 있도록 순회
+for num in range(1, N+1):   # range는 1, N-1 까지 순회
     # answer = answer * num
     answer *= num
 print(answer)   # 출력 120
