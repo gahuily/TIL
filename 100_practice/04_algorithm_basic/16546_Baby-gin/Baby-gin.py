@@ -30,12 +30,29 @@ def is_baby_gin(arr):
         first_group = perm[:3]
         second_group = perm[3:]
 
-        if (is_run(first_group) == True:
-            if (is_run(second_group) == True) or (is_triplet(second_group) == True)
-                return
+        if (is_run(first_group)) == True:
+            if (is_run(second_group) == True) or (is_triplet(second_group) == True):
+                return True
+        elif (is_triplet(first_group)) == True:
+            if (is_run(second_group) == True) or (is_triplet(second_group) == True):
+                return True
+    return False
 
+# 통과 안 됨.........
+# T = int(input())
+# for tc in range(1, T+1):
+#     num_list = list(map(int, list(input())))
+#     # print(num_list)
+#     result = 'true' if is_baby_gin(num_list) else 'false'
+#     print(f'{tc} {result}')
 
+# 통과 됨.........
 T = int(input())
 for tc in range(1, T+1):
-    num_list = list(map(int, list(input())))
-    print(num_list)
+    num_str = input().strip()  # 문자열 입력 (예: "667767")
+    if len(num_str) != 6:
+        print(f"{tc} false")  # 입력 길이가 잘못된 경우 처리
+        continue
+    num_list = list(map(int, num_str))
+    result = 'true' if is_baby_gin(num_list) else 'false'
+    print(f'#{tc} {result}')
