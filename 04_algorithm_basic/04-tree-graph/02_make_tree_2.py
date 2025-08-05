@@ -30,7 +30,7 @@ for data in input_data:
 
     # 나에게 주어진 정보가 부모 노드의 index 뿐이니,
     # 내가 이진트리에서 어디에 삽입될 수 있는지를 보려면,
-    # 당연하게도, 부모 노드의 왼쪽 자식, 오른쪽 자식 중, 비어있는 곳을 찾아야한다.
+    # 당연하게도, 부모 노드의 왼쪽 자식, 오른쪽 자식중, 비어있는 곳을 찾아야한다.
     if not tree[left_child]:
         tree[left_child] = value
     else:

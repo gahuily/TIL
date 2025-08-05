@@ -63,4 +63,4 @@ print('중위 순회')
 inorder_traversal(1)  # 'D' 'B' 'E' 'A' 'C'
 print()
 print('후위 순회')
-postorder_traversal(1)  # 'D' 'E' 'B' 'C' 'A'
+postorder_traversal(1)  # 'D' 'E' 'B' 'C''A'
