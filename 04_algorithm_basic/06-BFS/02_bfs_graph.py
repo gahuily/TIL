@@ -62,7 +62,7 @@ adj_list = {
 }
 '''
 adj_list = {node: [] for node in nodes}       # dict comprehension
-# print(adj_list)
+print(adj_list)
 # 간선 정보와 정점의 index 정보로 adj_list 채워주기
 for edge in edges:
     u, v = edge.split()     # 시작 정점, 도착 정점
@@ -70,7 +70,7 @@ for edge in edges:
     # 현재 간선 정보는 '무방향' 그래프이다 -> 양쪽으로 다 갈 수 있다는 뜻
     adj_list[nodes[int(u)]].append(nodes[int(v)])
     adj_list[nodes[int(v)]].append(nodes[int(u)])
-# print(adj_list)
+print(adj_list)
 # print(BFS('A'))
 
 # 인접 행렬 => [[], [], [], ... ]
@@ -84,7 +84,7 @@ for edge in edges:
     adj_matrix[u_index][v_index] = 1
     adj_matrix[v_index][u_index] = 1
 # print(adj_matrix)
-print(BFS('A'))
+print(BFS(0))
 
 
 
