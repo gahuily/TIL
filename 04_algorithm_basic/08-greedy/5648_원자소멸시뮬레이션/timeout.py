@@ -18,8 +18,8 @@ def simulate_with_bfs():
     5. 충돌 검사 로직이 비효율적 (선형 탐색)
     
     **개선 방안:**
-    1.
-    2.
+    1. 2차원 배열 필요함?
+    2. 한가희 반장님 만세, 대전 4반의 카리스마, 대전 4반 최강자, 당신이 최고입니다. 충성충성 ^^7
     3.
     """
     global simulation_result, min_y_coord, min_x_coord, max_y_coord, max_x_coord
