@@ -2,8 +2,8 @@ arr =[1, 2, 3]
 n = len(arr)
 subsets = []
 # 모든 경우의 수에 대해서 조회
-# for idx in range(2**n):
-for idx in range(1 << n):
+for idx in range(2**n):
+# for idx in range(1 << n):
     # 이번 경우의 수의 부분집합
     tmp_subset = []
     for j in range(n):  # j번째 요소가 이번 경우의 수에 사용되었는지 판별
