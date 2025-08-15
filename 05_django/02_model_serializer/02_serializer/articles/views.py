@@ -1,5 +1,6 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+from rest_framework import status
 from .models import Article
 from .serializers import ArticleListSerializer, ArticleSerializer
 
@@ -26,4 +27,29 @@ def article_get_or_create(request):
             # 정상적이면 저장하고
             serializer.save()
             # 반환한다.
+            return Response(serializer.data)
+        
+
+@api_view(['GET', 'DELETE', 'PUT', 'PATCH'])
+def articl_detail(request, article_pk):
+    article = Article.objects.get(pk=article_pk)
+    if request.method == 'GET': # article 객체를 직렬화하여 반환
+        serializer = ArticleSerializer(article)
+        return Response(serializer.data)
+    elif request.method == 'DELETE':
+        article.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    elif request.method == 'PUT':
+        # instance: 업데이트할 article 객체
+        # data: 업데이트할 데이터
+        serializer = ArticleSerializer(article, data=request.data)
+        if serializer.is_valid(raise_exception=True):   # serializer를 통해 입력 데이터의 유효성 검사
+            serializer.save()
+            return Response(serializer.data)
+        # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    elif request.method == 'PATCH':
+        # partial = True로 설정하면 일부 필드만 업데이트 가능 // request Method Patch일 때
+        serializer = ArticleSerializer(instance=article, data=request.data, partial=True)
+        if serializer.is_valid(raise_exception=True):   # serializer를 통해 입력 데이터의 유효성 검사
+            serializer.save(raise_exception=True)
             return Response(serializer.data)

@@ -7,4 +7,5 @@ urlpatterns = [
     # 경로만 보면 articles/
     # 행위와 더해서 보면 GET or POST articles/
     path('', views.article_get_or_create),
+    path('<int:article_pk>/', views.articl_detail),
 ]
