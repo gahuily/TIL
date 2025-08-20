@@ -26,5 +26,9 @@ for tc in range(1, T+1):
     parent = make_set(N)
     for idx in range(0, len(paper), 2):
         union(paper[idx], paper[idx+1])
-    result = list(set(parent))
-    print(f'#{tc} {len(result)}')
+    # result = list(set(parent))
+    # print(f'#{tc} {len(result)}')
+    roots = set()
+    for i in range(1, N+1):
+        roots.add(find_set(i))  # 각 원소의 최종 대표자를 찾아 set에 추가
+    print(f'#{tc} {len(roots)}')
