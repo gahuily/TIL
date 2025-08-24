@@ -3,6 +3,7 @@ import heapq, math
 
 def dijkstra(graph, start):
     distances = {v: math.inf for v in graph}
+    # print(distances)
     distances[start] = 0    # 시작 정점까지 도달하는 거리 0 초기화
     # 내 다음 조사 후보군들을 삽입할 배열
     heap = []   # 최초 힙
@@ -21,8 +22,7 @@ def dijkstra(graph, start):
         for next, weight in graph[current].items():
             # print(next)
             # print(weight)
-            next_distanc
-            e = dist + weight   # 현재까지 걸린 가중치 + 다음 위치까지의 가중치
+            next_distance = dist + weight   # 현재까지 걸린 가중치 + 다음 위치까지의 가중치
             # 아직 방문하지 않았고, 정점까지 도달하는 거리가 충분히 작을 때
             if next_distance < distances[next]:
                 distances[next] = next_distance
