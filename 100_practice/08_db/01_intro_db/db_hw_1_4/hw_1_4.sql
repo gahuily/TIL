@@ -1,0 +1,14 @@
+USE sns_db;
+
+ALTER TABLE users ADD profile_picutre VARCHAR(255);
+
+ALTER TABLE users MODIFY email VARCHAR(320);
+
+ALTER TABLE posts ADD title VARCHAR(255);
+
+ALTER TABLE posts MODIFY content LONGTEXT;
+
+
+-- CAHR(255)
+-- VARCHAR(0 ~ 65, 535문자)
+-- LONGTEXT
